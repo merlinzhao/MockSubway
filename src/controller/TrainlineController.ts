@@ -26,7 +26,7 @@ export class TrainlineController {
     }
     //curl -X POST -d 'name="1"' http://localhost:3000/trainlines
     //curl -X POST -H "Content-Type: application/json" -d '{"name": "1"}' http://localhost:3000/trainlines
-    async save(request: Request, response: Response, next: NextFunction) {
+    async newLine(request: Request, response: Response, next: NextFunction) {
         const { name } = request.body;
 
         const trainline = Object.assign(new Trainline(), {
@@ -40,19 +40,4 @@ export class TrainlineController {
             next(error);
         }
     }
-
-    async remove(request: Request, response: Response, next: NextFunction) {
-        const trainline_name = request.params.trainline_name
-
-        let trainlineToRemove = await this.trainlineRepository.findBy({ name: trainline_name })
-
-        if (!trainlineToRemove) {
-            return "this trainline not exist"
-        }
-
-        await this.trainlineRepository.remove(trainlineToRemove)
-
-        return "user has been removed"
-    }
-
 }

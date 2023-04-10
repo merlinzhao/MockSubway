@@ -31,9 +31,7 @@ export class TripRouteController {
                     .map(station => station.name);
             });
             const path = this.optimalPath(origin, destination, possibleStations);
-            console.log(path);
             response.status(200).json(path);
-
         } catch (error) {
             next(error);
         }

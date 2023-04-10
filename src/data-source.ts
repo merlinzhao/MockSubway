@@ -1,6 +1,5 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { User } from "./entity/User"
 import { Trainline } from "./entity/Trainline"
 import { Station } from "./entity/Station"
 import { Card } from "./entity/Card"
@@ -16,7 +15,7 @@ export const AppDataSource = new DataSource({
     database: "mock_subway",
     synchronize: true,
     logging: false,
-    entities: [User, Trainline, Station, Card, Transaction],
+    entities: [Trainline, Station, Card, Transaction],
     migrations: [],
     subscribers: [],
 })

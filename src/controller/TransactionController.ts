@@ -33,7 +33,5 @@ export class TransactionController {
             console.error("Error processing new transaction:", err);
             throw new Error("Failed to process new transaction");
         }
-
     }
-
 }

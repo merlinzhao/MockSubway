@@ -1,31 +1,10 @@
 import { TrainlineController } from "./controller/TrainlineController"
-import { UserController } from "./controller/UserController"
 import { StationController } from "./controller/StationController"
 import { TripRouteController } from "./controller/TripRouteController"
 import { CardController } from "./controller/CardController"
 
 export const Routes = [{
     method: "get",
-    route: "/users",
-    controller: UserController,
-    action: "all"
-}, {
-    method: "get",
-    route: "/users/:id",
-    controller: UserController,
-    action: "one"
-}, {
-    method: "post",
-    route: "/users",
-    controller: UserController,
-    action: "save"
-}, {
-    method: "delete",
-    route: "/users/:id",
-    controller: UserController,
-    action: "remove"
-}, {
-    method: "get",
     route: "/trainlines",
     controller: TrainlineController,
     action: "all"
@@ -33,17 +12,12 @@ export const Routes = [{
     method: "post",
     route: "/trainlines",
     controller: TrainlineController,
-    action: "save"
+    action: "newLine"
 }, {
     method: "get",
     route: "/trainlines/:name",
     controller: TrainlineController,
     action: "one"
-}, {
-    method: "delete",
-    route: "/trainlines/:name",
-    controller: TrainlineController,
-    action: "remove"
 }, {
     method: "get",
     route: "/stations",
@@ -51,9 +25,9 @@ export const Routes = [{
     action: "all"
 }, {
     method: "post",
-    route: "/stations",
+    route: "/train-line",
     controller: StationController,
-    action: "save"
+    action: "newTrainline"
 }, {
     method: "post",
     route: "/station/:station/enter",

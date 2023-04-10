@@ -8,28 +8,66 @@ Steps to run this project:
 
 
 Criteras
+##Challenge 1
+POST /train-line
 
-POST /card
+stations - each station (or stop) on the train line
+    You can assume each station stop is a unique name. e.g. “14th” on the “1 train" in the example below refers to the same stop as “14th” on the “E train”.
+name - of the train line
+returns confirmation of the line creation
+The lines should be saved to the database. 
+
+```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```
+
+Example input:
+POST /train-line
+{
+"stations": ["Canal", "Houston", "Christopher", "14th"],
+"name": "1"
+}
+
+###GET /route?origin=[origin]&destination=[destination]
+
+origin - station
+destination - station
+returns the optimal station list from the origin station to the destination station
+The optimal station list is the fewest stations possible. Note: there is no penalty for changing trains.
+
+``````
+
+Example input:
+GET /route?origin=Houston&destination=23rd
+{
+"route": ["Houston", "Christopher", "14th", "23rd"]
+}
+
+
+
+
+##Challenge 2
+
+###POST /card
 number - unique identification of the card
 amount - the amount of money to be added to the pre-paid card
 returns confirmation of the card creation
 If the card already exists, the amount should be added to the balance of the card.
 
-e.x repsonse 
+Example input:
 POST /card
 {
 "number": "1234",
 "amount": 10.0
 }
 
-curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' http://localhost:3000/card
-curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": -2.75}' http://localhost:3000/card
+```curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' http://localhost:3000/card```
 
 
-POST /station/[station]/enter
+
+###POST /station/[station]/enter
 card_number - unique identification of the card being used to pay for the ride
 returns the amount left in the card after paying for the ride
-
+```url -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/enter```
+Example input:
 POST /station/Houston/enter
 {
 "card_number": "1234"
@@ -44,7 +82,9 @@ Response:
 POST /station/[station]/exit
 card_number - unique identification of the card being used to pay for the ride
 returns the amount left in the card after paying for the ride
+```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/exit```
 
+Example input:
 POST /station/23rd/exit
 {
 "card_number": "1234"
