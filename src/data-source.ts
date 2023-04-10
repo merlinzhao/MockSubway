@@ -4,6 +4,8 @@ import { User } from "./entity/User"
 import { Trainline } from "./entity/Trainline"
 import { Station } from "./entity/Station"
 import { Card } from "./entity/Card"
+import { Transaction } from "./entity/Transction"
+
 // pg_ctl -D /usr/local/var/postgres -l logfile start
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -14,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: "mock_subway",
     synchronize: true,
     logging: false,
-    entities: [User, Trainline, Station, Card],
+    entities: [User, Trainline, Station, Card, Transaction],
     migrations: [],
     subscribers: [],
 })

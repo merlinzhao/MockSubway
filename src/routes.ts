@@ -55,6 +55,16 @@ export const Routes = [{
     controller: StationController,
     action: "save"
 }, {
+    method: "post",
+    route: "/station/:station/enter",
+    controller: StationController,
+    action: "enter"
+}, {
+    method: "post",
+    route: "/station/:station/exit",
+    controller: StationController,
+    action: "exit"
+}, {
     method: "get",
     route: "/routeTrip",
     controller: TripRouteController,
@@ -72,9 +82,9 @@ export const Routes = [{
 },
 {
     method: "post",
-    route: "/card/new",
+    route: "/card",
     controller: CardController,
-    action: "newCard"
+    action: "card"
 },
 {
     method: "post",

@@ -18,6 +18,9 @@ export class Transaction {
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     remainingbalance: number
 
+    @Column({ type: 'boolean', default: false })
+    isEnter: boolean;
+
     @CreateDateColumn()
     createdAt: Date
 }
