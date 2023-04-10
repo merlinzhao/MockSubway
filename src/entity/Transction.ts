@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm"
 
 @Entity({ name: 'transactions' })
 export class Transaction {
@@ -12,9 +12,12 @@ export class Transaction {
     @Column()
     station: string
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
     fare: number
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
     remainingbalance: number
+
+    @CreateDateColumn()
+    createdAt: Date
 }

@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm"
-import { Trainline } from "./Trainline"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm"
 
 @Entity({ name: 'train_line_stations' })
 export class Station {
@@ -15,4 +14,10 @@ export class Station {
 
     @Column()
     trainlineName: string
+
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    fare: number
+
+    @CreateDateColumn()
+    createdAt: Date
 }

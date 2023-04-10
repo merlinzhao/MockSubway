@@ -64,5 +64,22 @@ export const Routes = [{
     route: "/card",
     controller: CardController,
     action: "allCards"
+}, {
+    method: "get",
+    route: "/card/:uuid",
+    controller: CardController,
+    action: "getCard"
+},
+{
+    method: "post",
+    route: "/card/new",
+    controller: CardController,
+    action: "newCard"
+},
+{
+    method: "post",
+    route: "/card/update",
+    controller: CardController,
+    action: "updateCardBalance"
 }
 ]

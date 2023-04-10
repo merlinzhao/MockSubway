@@ -18,12 +18,13 @@ export class StationController {
 
 
     //curl -X POST -d 'name="1"' http://localhost:3000/trainlines
-    //curl -X POST -H "Content-Type: application/json" -d '{"name": "1", "stations": ["Canal", "Houston", "Christopher", "14th"]}' http://localhost:3000/stations
-    //curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd"]}' http://localhost:3000/stations
+    //curl -X POST -H "Content-Type: application/json" -d '{"name": "1", "stations": ["WTC","Chambers","Franklin","Canal", "Houston", "Christopher", "14th", "24th"], "fare": 2.75}' http://localhost:3000/stations
+    //curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/stations
     async save(request: Request, response: Response, next: NextFunction) {
-        const { name, stations } = request.body;
+        const { name, stations, fare } = request.body;
 
         var trainline_id;
+        console.log(name, stations, fare)
 
         // Check if trainline already exists
         let trainline = await this.trainlineRepository.findOneBy({ name: name });
@@ -49,7 +50,8 @@ export class StationController {
             stationArray.push({
                 name: stationName,
                 trainlineId: trainline_id,
-                trainlineName: name
+                trainlineName: name,
+                fare: fare
             });
 
         }
