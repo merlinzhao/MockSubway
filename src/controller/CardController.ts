@@ -5,25 +5,35 @@ import { Card } from '../entity/Card'
 export class CardController {
 
     private cardRepository = AppDataSource.getRepository(Card);
-    //http://localhost:3000/card
+
     async allCards(request: Request, response: Response, next: NextFunction) {
-        return await this.cardRepository.find()
+        /* get all cards from card table */
+        try {
+            return await this.cardRepository.find()
+        } catch (error) {
+            console.error('Error getting all card: ', error);
+            return response.status(500).json({ error: 'Error getting card all' });
+        }
     }
-    //http://localhost:3000/card/1234
+
     async getCard(request: Request, response: Response, next: NextFunction) {
+        /* get one card from database */
         const uuid = request.params.uuid
+        if (typeof uuid !== 'string' || uuid.trim().length === 0) return response.status(400).json({ error: 'Invalid uuid parameter' });
         try {
             const card = await this.getOneCard(uuid);
             response.status(200).json(card);
         } catch (error) {
-            next(error)
+            console.error('Error getting card: ', error);
+            return response.status(500).json({ error: 'Error getting card' });
         }
     }
 
-    //curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": -2.75}' http://localhost:3000/card
-    //curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' http://localhost:3000/card
     async card(request: Request, response: Response, next: NextFunction) {
+        /*If card does not exist in table, then create new card with amount. Otherwise add amount to existing card*/
         const { uuid, amount } = request.body;
+        if (typeof uuid !== 'string' || uuid.trim().length === 0) return response.status(400).json({ error: 'Invalid uuid parameter' });
+        if (typeof amount !== 'number' || isNaN(amount)) return response.status(400).json({ error: 'Invalid amount parameter' });
         const card = await this.getOneCard(uuid)
         if (card) {
             try {
@@ -48,14 +58,16 @@ export class CardController {
                     await this.cardRepository.save(newCard);
                     message = { number: uuid, amount: amount }
                 }
-                response.status(200).json(message);
+                return response.status(200).json(message);
             } catch (error) {
-                next(error);
+                console.error('Error handling card request: ', error);
+                return response.status(500).json({ error: 'Error handling card request' });
             }
         }
     }
 
     async updateCardBalance(uuid: string, amount: number) {
+        /*Update the given card uuid balance based on amount*/
         try {
             const card = await this.getOneCard(uuid)
             if (card["balance"] <= 0) {
@@ -73,18 +85,20 @@ export class CardController {
             return { number: uuid, amount: newBalance };
 
         } catch (error) {
-            return { error: `card: ${uuid} could not be updated` }
+            console.error("Error updaing card:", error);
+            throw new Error("Error updating card");
         }
     }
 
     async getOneCard(uuid: string) {
+        /* get only one card */
         try {
             if (!uuid) return {};
             const card = await this.cardRepository.findOneBy({ uuid: uuid });
             console.log("Found existing card:", card);
             return card;
-        } catch (err) {
-            console.error("Error retrieving card:", err);
+        } catch (error) {
+            console.error("Error retrieving card:", error);
             throw new Error("Failed to retrieve card from database");
         }
     }

@@ -17,7 +17,7 @@ export class StationController {
         /* Get all stations */
         try {
             const stations = await this.stationRepository.find();
-            response.status(200).json(stations);
+            return response.status(200).json(stations);
         } catch (error) {
             console.error('Error getting all stations: ', error);
             return response.status(500).json({ error: 'Error getting all stations' });
@@ -51,12 +51,8 @@ export class StationController {
         any fare, returns card_number and balance*/
         const { station } = request.params;
         const { card_number } = request.body;
-        if (typeof card_number !== 'string' || card_number.trim().length === 0) {
-            return response.status(400).json({ error: 'Invalid card_number parameter' });
-        }
-        if (typeof station !== 'string' || station.trim().length === 0) {
-            return response.status(400).json({ error: 'Invalid station parameter' });
-        }
+        if (typeof card_number !== 'string' || card_number.trim().length === 0) return response.status(400).json({ error: 'Invalid card_number parameter' });
+        if (typeof station !== 'string' || station.trim().length === 0) return response.status(400).json({ error: 'Invalid station parameter' });
 
         try {
             const fare = 0;

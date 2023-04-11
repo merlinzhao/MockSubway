@@ -1,15 +1,32 @@
 # Awesome Project Build with TypeORM
 
-Steps to run this project:
+Steps to run this project locally (without Docker):
 
-1. Run `npm i` command
-2. Setup database settings inside `data-source.ts` file
+1. Run `npm install` command
+2. Setup/verify database settings inside `data-source.ts` file
 3. Run `npm start` command
 
+### Build Docker Image
+```docker build -t my-node-app .```
 
-Criteras
-##Challenge 1
-POST /train-line
+### Run Docker Container
+Node app will run on port 3000 on host machine
+```docker run -p 3000:3000 my-node-app```
+
+### Database
+The database `mock_subway` is hosted in AWS.
+``` type: "postgres",
+    host: "mock-subway-instance.cvl5bfciu1ri.us-east-1.rds.amazonaws.com",
+    port: 5432,
+    username: "postgres",
+    password: "postgres",
+    database: "mock_subway"
+```
+
+
+## Criteras
+## Challenge 1
+### POST /train-line
 
 stations - each station (or stop) on the train line
     You can assume each station stop is a unique name. e.g. “14th” on the “1 train" in the example below refers to the same stop as “14th” on the “E train”.
@@ -26,7 +43,7 @@ POST /train-line
 "name": "1"
 }
 
-###GET /route?origin=[origin]&destination=[destination]
+### GET /route?origin=[origin]&destination=[destination]
 
 origin - station
 destination - station
@@ -42,9 +59,9 @@ GET /route?origin=Houston&destination=23rd
 }
 
 
-##Challenge 2
+## Challenge 2
 
-###POST /card
+### POST /card
 number - unique identification of the card
 amount - the amount of money to be added to the pre-paid card
 returns confirmation of the card creation
@@ -61,7 +78,7 @@ POST /card
 
 
 
-###POST /station/[station]/enter
+### POST /station/[station]/enter
 card_number - unique identification of the card being used to pay for the ride
 returns the amount left in the card after paying for the ride
 ```url -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/enter```
@@ -77,7 +94,7 @@ Response:
 }
 
 
-POST /station/[station]/exit
+### POST /station/[station]/exit
 card_number - unique identification of the card being used to pay for the ride
 returns the amount left in the card after paying for the ride
 ```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/exit```
@@ -93,8 +110,8 @@ Response:
 }
 
 
-##SAMPLE INPUTS
-###Trainlines
+## SAMPLE INPUTS
+### Trainlines
 
 GET - all trainlines
 ```curl -X GET "http://localhost:3000/trainlines/"```
@@ -103,7 +120,7 @@ GET - one trainline
 POST - create a new trainline 
 ```curl -X POST -H "Content-Type: application/json" -d '{"name": "1"}' "http://localhost:3000/trainlines"```
 
-###Stations
+### Stations
 POST - create new trainlines 
 ```curl -X POST -H "Content-Type: application/json" -d '{"name": "1", "stations": ["WTC","Chambers","Franklin","Canal", "Houston", "Christopher", "14th", "24th"], "fare": 2.75}' http://localhost:3000/train-line```
 ```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```

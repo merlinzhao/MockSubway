@@ -11,10 +11,11 @@ export class TrainlineController {
             const allTrainlines = await this.trainlineRepository.find();
             return response.status(200).json(allTrainlines)
         } catch (error) {
-            next(error);
+            console.error('Error getting all trainline:', error);
+            return response.status(500).json({ error: 'Error getting all trainline' });
         }
     }
-    //http://localhost:3000/trainlines/E
+
     async getTrainline(request: Request, response: Response, next: NextFunction) {
         const trainlineName = request.params.name
         if (typeof trainlineName !== 'string') {
@@ -24,11 +25,11 @@ export class TrainlineController {
             const trainline = await this.findTrainline(trainlineName);
             return response.status(200).json(trainline);
         } catch (error) {
-            next(error);
+            console.error('Error getting trainline:', error);
+            return response.status(500).json({ error: 'Error getting trainline' });
         }
     }
-    //curl -X POST -d 'name="1"' http://localhost:3000/trainlines
-    //curl -X POST -H "Content-Type: application/json" -d '{"name": "1"}' http://localhost:3000/trainlines
+
     async newLine(request: Request, response: Response, next: NextFunction) {
         /* Create a new trainline in table train_lines*/
         const { name } = request.body;

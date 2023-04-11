@@ -1,18 +1,18 @@
 import { AppDataSource } from '../data-source'
 import { NextFunction, Request, Response } from "express"
 import { Station } from '../entity/Station'
-
-interface StationNode {
-    station: Station;
-    distance: number;
-}
-
-//http://localhost:3000/routeTrip?origin=Houston&destination=23rd
 export class TripRouteController {
     private stationRepository = AppDataSource.getRepository(Station)
 
     async routeTrip(request: Request, response: Response, next: NextFunction) {
+        /* Find the shortest route between two locations. Currently assuming that there will be only
+        be on transfer between origin and destination. 'routeLines' can be expanded upon to handle more transfers.
+        A map can be made for every line that are connected between the origin and destination lines */
         const { origin, destination } = request.query
+
+        if (typeof origin !== 'string' || origin.trim().length === 0) return response.status(400).json({ error: 'Invalid origin parameter' });
+        if (typeof destination !== 'string' || destination.trim().length === 0) return response.status(400).json({ error: 'Invalid destination parameter' });
+
         try {
             const stations = await this.stationRepository.find();
 
@@ -34,7 +34,8 @@ export class TripRouteController {
             const path = this.optimalPath(origin, destination, possibleStations);
             response.status(200).json(path);
         } catch (error) {
-            next(error);
+            console.error('Error routing path between origin and destination: ', error);
+            return response.status(500).json({ error: 'Error routing path between origin and destination' });
         }
     }
 
@@ -44,7 +45,6 @@ export class TripRouteController {
         while (paths) {
             const path = paths.shift();
             if (path[path.length - 1] === destination) {
-                console.log("RETURN!!", path);
                 return path;
             }
             for (const key in lines) {
