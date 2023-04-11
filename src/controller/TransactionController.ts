@@ -5,12 +5,20 @@ import { Transaction } from '../entity/Transction'
 export class TransactionController {
 
     private transactionRepository = AppDataSource.getRepository(Transaction);
-    //http://localhost:3000/transaction
+
     async allTransactions(request: Request, response: Response, next: NextFunction) {
-        return this.transactionRepository.find()
+        /*Get all transactions*/
+        try {
+            const transactions = await this.transactionRepository.find()
+            response.status(200).json(transactions)
+        } catch (error) {
+            console.error('Error getting all transactions: ', error);
+            return response.status(500).json({ error: 'Error getting all transactions' });
+        }
     }
 
     async newTransaction(uuid: string, station: string, fare: number, remainingbalance: number, isEnter: boolean) {
+        /* Write a new transaction into the database with given parameters*/
         try {
             const newTransaction = Object.assign(new Transaction(), {
                 uuid: uuid,
@@ -28,7 +36,6 @@ export class TransactionController {
                 remainingbalance: remainingbalance,
                 isEnter: isEnter
             };
-
         } catch (err) {
             console.error("Error processing new transaction:", err);
             throw new Error("Failed to process new transaction");

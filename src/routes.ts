@@ -2,12 +2,13 @@ import { TrainlineController } from "./controller/TrainlineController"
 import { StationController } from "./controller/StationController"
 import { TripRouteController } from "./controller/TripRouteController"
 import { CardController } from "./controller/CardController"
+import { TransactionController } from "./controller/TransactionController"
 
 export const Routes = [{
     method: "get",
     route: "/trainlines",
     controller: TrainlineController,
-    action: "all"
+    action: "allTrainlines"
 }, {
     method: "post",
     route: "/trainlines",
@@ -17,7 +18,7 @@ export const Routes = [{
     method: "get",
     route: "/trainlines/:name",
     controller: TrainlineController,
-    action: "one"
+    action: "getTrainline"
 }, {
     method: "get",
     route: "/stations",
@@ -65,5 +66,11 @@ export const Routes = [{
     route: "/card/update",
     controller: CardController,
     action: "updateCardBalance"
+},
+{
+    method: "get",
+    route: "/transaction",
+    controller: TransactionController,
+    action: "allTransactions"
 }
 ]

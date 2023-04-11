@@ -17,7 +17,7 @@ name - of the train line
 returns confirmation of the line creation
 The lines should be saved to the database. 
 
-```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```
+```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th","23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```
 
 Example input:
 POST /train-line
@@ -33,15 +33,13 @@ destination - station
 returns the optimal station list from the origin station to the destination station
 The optimal station list is the fewest stations possible. Note: there is no penalty for changing trains.
 
-``````
+```curl -X GET "http://localhost:3000/routeTrip?origin=Houston&destination=23rd"```
 
 Example input:
 GET /route?origin=Houston&destination=23rd
 {
 "route": ["Houston", "Christopher", "14th", "23rd"]
 }
-
-
 
 
 ##Challenge 2
@@ -59,7 +57,7 @@ POST /card
 "amount": 10.0
 }
 
-```curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' http://localhost:3000/card```
+```curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' "http://localhost:3000/card"```
 
 
 
@@ -93,3 +91,26 @@ Response:
 {
 "amount": 7.25
 }
+
+
+##SAMPLE INPUTS
+###Trainlines
+
+GET - all trainlines
+```curl -X GET "http://localhost:3000/trainlines/"```
+GET - one trainline
+```curl -X GET "http://localhost:3000/trainlines/E"```
+POST - create a new trainline 
+```curl -X POST -H "Content-Type: application/json" -d '{"name": "1"}' "http://localhost:3000/trainlines"```
+
+###Stations
+POST - create new trainlines 
+```curl -X POST -H "Content-Type: application/json" -d '{"name": "1", "stations": ["WTC","Chambers","Franklin","Canal", "Houston", "Christopher", "14th", "24th"], "fare": 2.75}' http://localhost:3000/train-line```
+```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th", "23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```
+
+POST - enter a station
+```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/enter```
+
+POST - exit a station 
+```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/exit```
+

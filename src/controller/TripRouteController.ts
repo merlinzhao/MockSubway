@@ -12,7 +12,7 @@ export class TripRouteController {
     private stationRepository = AppDataSource.getRepository(Station)
 
     async routeTrip(request: Request, response: Response, next: NextFunction) {
-        const { origin, destination } = request.query;
+        const { origin, destination } = request.query
         try {
             const stations = await this.stationRepository.find();
 
@@ -30,6 +30,7 @@ export class TripRouteController {
                     .filter(station => station.trainlineName === trainLine)
                     .map(station => station.name);
             });
+            console.log(originLines, destinationLines);
             const path = this.optimalPath(origin, destination, possibleStations);
             response.status(200).json(path);
         } catch (error) {
@@ -50,7 +51,6 @@ export class TripRouteController {
                 const line = lines[key];
                 if (!line.includes(path[path.length - 1])) continue;
                 const i = line.indexOf(path[path.length - 1])
-
                 for (const station of line.slice(i - 1, i).concat(line.slice(i + 1, i + 2))) {
 
                     if (vistied.has(station)) continue;
