@@ -124,37 +124,37 @@ POST /station/23rd/exit
 **Response:**
 ```{"amount": 7.25}```
 
-
+  
 
 ## TESTING
 
 Testing was not required as part of the project, but a sample unit test was created with Jest in ./test 
 
 ```npm test tripRoute.test.ts```
-
+  
 ## DATABASE SCHEMA
 
 ### Table 'cards'
 
-id: number (PRIMARY KEY)
-uuid: string
-balance: number (DECIMAL(10,2))
-createdAt: Date
+id: number (PRIMARY KEY)  
+uuid: string  
+balance: number (DECIMAL(10,2))  
+createdAt: Date  
 
 ### Table 'train_lines'
 
-id: number (PRIMARY KEY)
-name: string
-createdAt: Date
+id: number (PRIMARY KEY)  
+name: string  
+createdAt: Date  
 
 ### Table 'train_line_stations'
 
-id: number (PRIMARY KEY)
-name: string
-trainlineId: number
-trainlineName: string
-fare: number (DECIMAL(10,2))
-createdAt: Date
+id: number (PRIMARY KEY)  
+name: string  
+trainlineId: number  
+trainlineName: string  
+fare: number (DECIMAL(10,2))  
+createdAt: Date  
 
 ### Table 'transactions'
 
@@ -165,8 +165,8 @@ fare: number (DECIMAL(10,2))
 remainingBalance: number (DECIMAL(10,2))  
 isEnter: boolean  
 createdAt: Date  
-
-
+  
+  
 
 ___________________________________________________
 ## OTHER SAMPLE INPUTS
