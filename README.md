@@ -12,12 +12,12 @@ Steps to run this project locally (without Docker):
 3. Run `npm start` command
 
 ### Build Docker Image
-```docker build -t my-node-app .```
+```docker build -t mock-subway-app .```
 
 ### Run Docker Container
 Node app will run on port 3000 on host machine
 
-```docker run -p 3000:3000 my-node-app```
+```docker run -p 3000:3000 mock-subway-app```
 
 ### Database
 The database `mock_subway` is hosted in AWS.
@@ -115,15 +115,28 @@ returns the amount left in the card after paying for the ride
 
 ```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/exit```
 
-Example input:
+**Example input:**
 POST /station/23rd/exit
 {
 "card_number": "1234"
 }
+
 **Response:**
 ```{"amount": 7.25}```
 
 
+
+## TESTING
+
+Testing was not required as part of the project, but a sample unit test was created with Jest in ./test 
+
+```npm test tripRoute.test.ts```
+
+
+
+
+
+___________________________________________________
 ## OTHER SAMPLE INPUTS
 ### Trainlines
 

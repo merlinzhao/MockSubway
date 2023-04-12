@@ -101,5 +101,4 @@ export class CardController {
             throw new Error("Failed to retrieve card from database");
         }
     }
-
 }

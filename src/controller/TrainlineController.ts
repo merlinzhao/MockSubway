@@ -71,7 +71,4 @@ export class TrainlineController {
             throw new Error('Error finding trainline in database');
         }
     }
-
-
 }
-
