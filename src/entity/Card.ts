@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm"
 
 @Entity({ name: 'cards' })
 export class Card {
@@ -10,4 +10,7 @@ export class Card {
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     balance: number
+
+    @CreateDateColumn()
+    createdAt: Date
 }

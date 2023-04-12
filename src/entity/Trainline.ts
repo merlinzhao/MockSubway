@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm"
 
 @Entity({ name: 'train_lines' })
 export class Trainline {
@@ -8,4 +8,7 @@ export class Trainline {
 
     @Column({ unique: true })
     name: string
+
+    @CreateDateColumn()
+    createdAt: Date
 }
