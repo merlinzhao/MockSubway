@@ -1,5 +1,8 @@
 # Mock Subway API
 A mock subway system for Parker
+**By Merlin Zhao**
+**merlinzhao@gmail.com**
+
 
 Node 16
 Docker 20
