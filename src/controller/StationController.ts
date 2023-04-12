@@ -17,10 +17,10 @@ export class StationController {
         /* Get all stations */
         try {
             const stations = await this.stationRepository.find();
-            return response.status(200).json(stations);
+            response.status(200).json(stations);
         } catch (error) {
             console.error('Error getting all stations: ', error);
-            return response.status(500).json({ error: 'Error getting all stations' });
+            response.status(500).json({ error: 'Error getting all stations' });
         };
     }
 
@@ -29,20 +29,19 @@ export class StationController {
         fare for the station, deducts from card_number balance, returns card_number and updated balance*/
         const { station } = request.params;
         const { card_number } = request.body;
-        if (!station || typeof station !== 'string') return response.status(400).json({ error: 'Invalid station parameter' });
-        if (!card_number || typeof card_number !== 'string') return response.status(400).json({ error: 'Invalid card_number parameter' });
+        if (!station || typeof station !== 'string') response.status(400).json({ error: 'Invalid station parameter' });
+        if (!card_number || typeof card_number !== 'string') response.status(400).json({ error: 'Invalid card_number parameter' });
         try {
             const stop = await this.findStation(station);
             const fare = -stop["fare"];
             const updated = await this.cardController.updateCardBalance(card_number, fare)
-            const message = { "amount": updated.amount }
-
             await this.transactionController.newTransaction(card_number, station, fare, updated.amount, true);
+            const message = { "amount": updated.amount }
             console.log(`CARD ${card_number} ENTERED ${station}`);
-            return response.status(200).json(message);
+            response.status(200).json(message);
         } catch (error) {
             console.error('Error creating an enter transaction: ', error);
-            return response.status(500).json({ error: 'Error creating an enter transaction' });
+            response.status(500).json({ error: 'Error creating an enter transaction' });
         };
     }
 
@@ -51,8 +50,8 @@ export class StationController {
         any fare, returns card_number and balance*/
         const { station } = request.params;
         const { card_number } = request.body;
-        if (typeof card_number !== 'string' || card_number.trim().length === 0) return response.status(400).json({ error: 'Invalid card_number parameter' });
-        if (typeof station !== 'string' || station.trim().length === 0) return response.status(400).json({ error: 'Invalid station parameter' });
+        if (typeof card_number !== 'string' || card_number.trim().length === 0) response.status(400).json({ error: 'Invalid card_number parameter' });
+        if (typeof station !== 'string' || station.trim().length === 0) response.status(400).json({ error: 'Invalid station parameter' });
 
         try {
             const fare = 0;
@@ -60,10 +59,10 @@ export class StationController {
             const message = { "amount": card["balance"] }
             await this.transactionController.newTransaction(card_number, station, fare, card["balance"], false);
             console.log(`CARD ${card_number} EXITED ${station}`);
-            return response.status(200).json(message);
+            response.status(200).json(message);
         } catch (error) {
             console.error('Error creating an exit transaction: ', error);
-            return response.status(500).json({ error: 'Error creating an exit transaction' });
+            response.status(500).json({ error: 'Error creating an exit transaction' });
         };
     }
 
@@ -72,14 +71,14 @@ export class StationController {
         All stations written into train_line_stations.
         */
         const { name, stations, fare } = request.body;
-        if (typeof name !== 'string' || name.trim().length === 0) return response.status(400).json({ error: 'Invalid name parameter' });
-        if (!Array.isArray(stations) || stations.length === 0) return response.status(400).json({ error: 'Invalid stations parameter' });
-        if (typeof fare !== 'number' || isNaN(fare)) return response.status(400).json({ error: 'Invalid fare parameter' });
+        if (typeof name !== 'string' || name.trim().length === 0) response.status(400).json({ error: 'Invalid name parameter' });
+        if (!Array.isArray(stations) || stations.length === 0) response.status(400).json({ error: 'Invalid stations parameter' });
+        if (typeof fare !== 'number' || isNaN(fare)) response.status(400).json({ error: 'Invalid fare parameter' });
 
         let trainline_id;
         try {
             // Check if trainline already exists with givn name from train_lines table 
-            let trainline = await this.trainlineController.findTrainline(name);
+            let trainline = await this.trainlineRepository.findOneBy({ name: name });
             if (!trainline) {
                 // Create new trainline entity with provided name
                 const newTrainline = Object.assign(new Trainline(), {
@@ -106,7 +105,7 @@ export class StationController {
             response.status(200).json({ message: `TRAINLINE ${name} STATIONS CREATED` });
         } catch (error) {
             console.error('Error saving new stations for trainline: ', error);
-            return response.status(500).json({ error: 'Error saving new stations for trainline' });
+            response.status(500).json({ error: 'Error saving new stations for trainline' });
         }
     }
 

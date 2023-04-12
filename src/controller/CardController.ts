@@ -12,28 +12,28 @@ export class CardController {
             return await this.cardRepository.find()
         } catch (error) {
             console.error('Error getting all card: ', error);
-            return response.status(500).json({ error: 'Error getting card all' });
+            response.status(500).json({ error: 'Error getting card all' });
         }
     }
 
     async getCard(request: Request, response: Response, next: NextFunction) {
         /* get one card from database */
         const uuid = request.params.uuid
-        if (typeof uuid !== 'string' || uuid.trim().length === 0) return response.status(400).json({ error: 'Invalid uuid parameter' });
+        if (typeof uuid !== 'string' || uuid.trim().length === 0) response.status(400).json({ error: 'Invalid uuid parameter' });
         try {
             const card = await this.getOneCard(uuid);
             response.status(200).json(card);
         } catch (error) {
             console.error('Error getting card: ', error);
-            return response.status(500).json({ error: 'Error getting card' });
+            response.status(500).json({ error: 'Error getting card' });
         }
     }
 
     async card(request: Request, response: Response, next: NextFunction) {
         /*If card does not exist in table, then create new card with amount. Otherwise add amount to existing card*/
         const { uuid, amount } = request.body;
-        if (typeof uuid !== 'string' || uuid.trim().length === 0) return response.status(400).json({ error: 'Invalid uuid parameter' });
-        if (typeof amount !== 'number' || isNaN(amount)) return response.status(400).json({ error: 'Invalid amount parameter' });
+        if (typeof uuid !== 'string' || uuid.trim().length === 0) response.status(400).json({ error: 'Invalid uuid parameter' });
+        if (typeof amount !== 'number' || isNaN(amount)) response.status(400).json({ error: 'Invalid amount parameter' });
         const card = await this.getOneCard(uuid)
         if (card) {
             try {
@@ -58,10 +58,10 @@ export class CardController {
                     await this.cardRepository.save(newCard);
                     message = { number: uuid, amount: amount }
                 }
-                return response.status(200).json(message);
+                response.status(200).json(message);
             } catch (error) {
                 console.error('Error handling card request: ', error);
-                return response.status(500).json({ error: 'Error handling card request' });
+                response.status(500).json({ error: 'Error handling card request' });
             }
         }
     }
@@ -83,7 +83,6 @@ export class CardController {
                 })
                 .execute();
             return { number: uuid, amount: newBalance };
-
         } catch (error) {
             console.error("Error updaing card:", error);
             throw new Error("Error updating card");
