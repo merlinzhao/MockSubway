@@ -40,8 +40,11 @@ name - of the train line
 returns confirmation of the line creation
 The lines should be saved to the database. 
 
+Add the E train with stations "Spring", "West 4th", "14th","23rd", "34th", "42nd", "50th" - fare to ride is $2.75
+
 ```curl -X POST -H "Content-Type: application/json" -d '{"name": "E", "stations": ["Spring", "West 4th", "14th","23rd", "34th", "42nd", "50th"], "fare": 2.75}' http://localhost:3000/train-line```
 
+Add the 1 train with stations "WTC","Chambers","Franklin","Canal", "Houston", "Christopher", "14th", "24th" - fare to ride is $2.75
 
 ```curl -X POST -H "Content-Type: application/json" -d '{"name": "1", "stations": ["WTC","Chambers","Franklin","Canal", "Houston", "Christopher", "14th", "24th"], "fare": 2.75}' http://localhost:3000/train-line```
 
@@ -53,6 +56,7 @@ POST /train-line
 "name": "1"
 }
 
+
 ### GET /route?origin=[origin]&destination=[destination]
 
 origin - station
@@ -60,8 +64,9 @@ destination - station
 returns the optimal station list from the origin station to the destination station
 The optimal station list is the fewest stations possible. Note: there is no penalty for changing trains.
 
-
 **Example input:**
+
+Route from Houston station to 23rd station
 GET /route?origin=Houston&destination=23rd
 
 ```curl -X GET "http://localhost:3000/routeTrip?origin=Houston&destination=23rd"```
@@ -91,6 +96,7 @@ POST /card
 ### POST /station/[station]/enter
 card_number - unique identification of the card being used to pay for the ride
 returns the amount left in the card after paying for the ride
+
 ```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/enter```
 
 **Example input:**
@@ -101,6 +107,7 @@ POST /station/Houston/enter
 
 **Response:**
 ```{"amount":7.25}```
+
 
 ### POST /station/[station]/exit
 card_number - unique identification of the card being used to pay for the ride
@@ -113,13 +120,11 @@ POST /station/23rd/exit
 {
 "card_number": "1234"
 }
-Response:
-{
-"amount": 7.25
-}
+**Response:**
+```{"amount": 7.25}```
 
 
-## SAMPLE INPUTS
+## OTHER SAMPLE INPUTS
 ### Trainlines
 
 **GET - all trainlines**
@@ -149,7 +154,26 @@ Response:
 ```curl -X POST -H "Content-Type: application/json" -d '{"card_number": "1234"}' http://localhost:3000/station/Houston/exit```
 
 
-### POST - Create or update card**
+**POST - Create or update card**
 
 ```curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' "http://localhost:3000/card"```
 
+### Cards
+
+**GET - all cards**
+
+```curl -X GET "http://localhost:3000/card"```
+
+**GET - card by id**
+
+```curl -X GET "http://localhost:3000/card/1234"```
+
+**POST - new card or add balance**
+
+```curl -X POST -H "Content-Type: application/json" -d '{"uuid": "1234", "amount": 10.0}' "http://localhost:3000/card"```
+
+### ROUTING
+
+**GET - route from origin to destination stations**
+
+```curl -X GET "http://localhost:3000/routeTrip?origin=Houston&destination=23rd"```
