@@ -158,13 +158,13 @@ createdAt: Date
 
 ### Table 'transactions'
 
-id: number (PRIMARY KEY)
-uuid: string
-station: string
-fare: number (DECIMAL(10,2))
-remainingBalance: number (DECIMAL(10,2))
-isEnter: boolean
-createdAt: Date
+id: number (PRIMARY KEY)  
+uuid: string  
+station: string  
+fare: number (DECIMAL(10,2))  
+remainingBalance: number (DECIMAL(10,2))  
+isEnter: boolean  
+createdAt: Date  
 
 
 
